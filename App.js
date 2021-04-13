@@ -1,33 +1,69 @@
 import React, { useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
-const array = ["", "", "", "", "", "", "", "", ""];
+var array = ["", "", "", "", "", "", "", "", ""];
 const App = () => {
-  const [getPlayer1, setPlayer1] = useState(0);
-  const [getPlayer2, setPlayer2] = useState(0);
+  const [getScore1, setScore1] = useState(0);
+  const [getScore2, setScore2] = useState(0);
+  const [getResult, setResult] = useState("");
   const [getTurn, setTurn] = useState(1);
 
   const checkTurn = (num) => {
     if (array[num] == "") {
       if (getTurn % 2 == 1) {
         array[num] = 'X';
+        setTurn(getTurn + 1)
       } else {
         array[num] = 'O';
+        setTurn(getTurn + 1)
       }
-    } else {
-      return;
     }
+  }
+
+  const checkSequence = () => {
+
+    const sequence = [
+      [0, 1, 2], [3, 4, 5], [6, 7, 8],
+      [0, 3, 6], [1, 4, 7], [2, 5, 8],
+      [0, 4, 8], [2, 4, 6],];
+
+    for (var i = 0; i < sequence.length; i++) {
+      const [x, y, z] = sequence[i];
+      if(array[x] != '' && array[y] != '' && array[z] != ''){
+        if (array[x] == array[y] && array[y] == array[z] ) {
+          checkWinner();
+          setResult(array[x]);
+          break;
+        }
+      }
+    }
+  }
+
+  const checkWinner = () => {
+    if (getResult == "X") {
+      setScore1(getScore1 + 1);
+      resetArray();
+      setResult("");
+    } else if (getResult == "O") {
+      setScore2(getScore2 + 1);
+      resetArray();
+      setResult("");
+    }
+  }
+
+  const resetArray = () => {
+    array = ["", "", "", "", "", "", "", "", ""];
   }
 
   return (
     <View style={styles.container}>
-      <Text style={{ transform: [{ rotate: '180deg' }], fontSize: 35, color: '#ff82c1', fontWeight: 'bold' }}>Player 2: {getPlayer2}</Text>
+      <Text style={{ transform: [{ rotate: '180deg' }], fontSize: 35, color: '#ff82c1', fontWeight: 'bold' }}>Player 2: {getScore2}</Text>
 
       <View style={styles.row}>
         <Pressable style={styles.button}
           onPress={() => {
             checkTurn(0);
-            setTurn(getTurn + 1)
+            checkSequence();
           }}
         >
           <Text style={{ fontSize: 80, color: '#ffa1d0' }}>{array[0]}</Text>
@@ -35,7 +71,7 @@ const App = () => {
         <Pressable style={styles.button}
           onPress={() => {
             checkTurn(1);
-            setTurn(getTurn + 1)
+            checkSequence();
           }}
         >
           <Text style={{ fontSize: 80, color: '#ffa1d0' }}>{array[1]}</Text>
@@ -44,7 +80,7 @@ const App = () => {
         <Pressable style={styles.button}
           onPress={() => {
             checkTurn(2);
-            setTurn(getTurn + 1)
+            checkSequence();
           }}
         >
           <Text style={{ fontSize: 80, color: '#ffa1d0' }}>{array[2]}</Text>
@@ -55,7 +91,7 @@ const App = () => {
         <Pressable style={styles.button}
           onPress={() => {
             checkTurn(3);
-            setTurn(getTurn + 1)
+            checkSequence();
           }}
         >
           <Text style={{ fontSize: 80, color: '#ffa1d0' }}>{array[3]}</Text>
@@ -63,7 +99,7 @@ const App = () => {
         <Pressable style={styles.button}
           onPress={() => {
             checkTurn(4);
-            setTurn(getTurn + 1)
+            checkSequence();
           }}
         >
           <Text style={{ fontSize: 80, color: '#ffa1d0' }}>{array[4]}</Text>
@@ -72,7 +108,7 @@ const App = () => {
         <Pressable style={styles.button}
           onPress={() => {
             checkTurn(5);
-            setTurn(getTurn + 1)
+            checkSequence();
           }}
         >
           <Text style={{ fontSize: 80, color: '#ffa1d0' }}>{array[5]}</Text>
@@ -83,7 +119,7 @@ const App = () => {
         <Pressable style={styles.button}
           onPress={() => {
             checkTurn(6);
-            setTurn(getTurn + 1)
+            checkSequence();
           }}
         >
           <Text style={{ fontSize: 80, color: '#ffa1d0' }}>{array[6]}</Text>
@@ -91,7 +127,7 @@ const App = () => {
         <Pressable style={styles.button}
           onPress={() => {
             checkTurn(7);
-            setTurn(getTurn + 1)
+            checkSequence();
           }}
         >
           <Text style={{ fontSize: 80, color: '#ffa1d0' }}>{array[7]}</Text>
@@ -100,14 +136,14 @@ const App = () => {
         <Pressable style={styles.button}
           onPress={() => {
             checkTurn(8);
-            setTurn(getTurn + 1)
+            checkSequence();
           }}
         >
           <Text style={{ fontSize: 80, color: '#ffa1d0' }}>{array[8]}</Text>
         </Pressable>
       </View>
 
-      <Text style={{ fontSize: 35, color: '#ff82c1', fontWeight: 'bold' }}>Player 1: {getPlayer1}</Text>
+      <Text style={{ fontSize: 35, color: '#ff82c1', fontWeight: 'bold' }}>Player 1: {getScore1}</Text>
     </View>
   );
 };
